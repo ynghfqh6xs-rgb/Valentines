@@ -1,0 +1,210 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine?</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fff5f5;
+            --primary: #d00000;
+            --secondary: #ff4d4d;
+            --accent: #ffccd5;
+            --text: #5e0000;
+        }
+
+        /* Color Themes */
+        .theme-red { --bg: #fff5f5; --primary: #d00000; --secondary: #ff4d4d; --text: #5e0000; }
+        .theme-pink { --bg: #fff0f6; --primary: #d63384; --secondary: #f783ac; --text: #a61e4d; }
+        .theme-green { --bg: #f4fce3; --primary: #2b8a3e; --secondary: #69db7c; --text: #2b8a3e; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            transition: 0.5s;
+            overflow-x: hidden;
+        }
+
+        .page {
+            display: none;
+            min-height: 100vh;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .active { display: flex; }
+
+        h1 { font-family: 'Dancing Script', cursive; font-size: 3rem; color: var(--primary); }
+
+        /* Buttons */
+        button {
+            padding: 12px 25px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 50px;
+            background-color: var(--primary);
+            color: white;
+            cursor: pointer;
+            transition: transform 0.2s;
+            margin: 10px;
+        }
+
+        button:hover { transform: scale(1.1); }
+
+        /* Photo Gallery Collage */
+        .collage {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            height: 400px;
+            margin: 20px auto;
+        }
+
+        .photo-item {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: white;
+            padding: 5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .photo-item img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-item:hover { z-index: 10; transform: scale(1.2) rotate(0deg) !important; }
+
+        /* Moving No Button */
+        #no-btn { position: absolute; }
+
+        /* Secret Letter */
+        .letter {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            max-width: 500px;
+            line-height: 1.6;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="theme-red">
+
+    <div id="page1" class="page active">
+        <h1>Welcome!</h1>
+        <p>Let's personalize your experience</p>
+        <input type="text" id="userNameInput" placeholder="Enter her/his name..." style="padding:10px; border-radius:10px; border:1px solid var(--primary);">
+        
+        <div style="margin-top:20px;">
+            <p>Pick a color theme:</p>
+            <button onclick="changeTheme('theme-red')">Red</button>
+            <button onclick="changeTheme('theme-pink')">Pink</button>
+            <button onclick="changeTheme('theme-green')">Green</button>
+        </div>
+        
+        <button onclick="nextPage(2)" style="margin-top:40px;">Create the Magic ✨</button>
+    </div>
+
+    <div id="page2" class="page">
+        <h1 id="galleryTitle">For You</h1>
+        <div class="collage">
+            <div class="photo-item" style="top:0; left:10%; transform: rotate(-5deg);"><img src="https://via.placeholder.com/150/ff4d4d/ffffff?text=Our+Memory+1"></div>
+            <div class="photo-item" style="top:20px; right:10%; transform: rotate(8deg);"><img src="https://via.placeholder.com/150/d00000/ffffff?text=Our+Memory+2"></div>
+            <div class="photo-item" style="bottom:10px; left:20%; transform: rotate(-10deg);"><img src="https://via.placeholder.com/150/ffccd5/5e0000?text=Our+Memory+3"></div>
+            <div class="photo-item" style="bottom:50px; right:15%; transform: rotate(5deg);"><img src="https://via.placeholder.com/150/ff4d4d/ffffff?text=Our+Memory+4"></div>
+        </div>
+        <p><i>"Every moment with you is a treasure..."</i></p>
+        
+        <div style="margin-top:20px;">
+            <p>Add some music?</p>
+            <input type="file" id="musicFile" accept="audio/*" style="font-size: 0.8rem;">
+        </div>
+
+        <button onclick="nextPage(3)">Continue →</button>
+    </div>
+
+    <div id="page3" class="page">
+        <h1 id="questionName">Will you be my Valentine?</h1>
+        <div style="height: 100px; width: 100%; position: relative;">
+            <button onclick="showReaction()" id="yes-btn">YES! 😍</button>
+            <button onmouseover="moveNo()" id="no-btn">No 🏃‍♂️</button>
+        </div>
+        <div id="yes-reaction" style="display:none; margin-top:20px;">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHYyYm9uN2I1bmt5eXF6eXF6eXF6eXF6eXF6eXF6eXF6eXF6ZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/lNyvXp7lB6T9u/giphy.gif" width="200">
+            <h3>Yay!! I knew you'd say yes! ❤️</h3>
+            <button onclick="nextPage(4)">Open your letter</button>
+        </div>
+    </div>
+
+    <div id="page4" class="page">
+        <div class="letter">
+            <h1>Dear <span id="finalName"></span>,</h1>
+            <p>I wanted to take a moment to tell you how much you mean to me. You make everything brighter just by being you. This little website is just a small way to show you how much I care.</p>
+            <p>Thank you for being in my life. I can't wait for all the memories we'll make next.</p>
+            <p><b>With all my love,</b><br>Forever Yours</p>
+        </div>
+        <button onclick="nextPage(1)" style="font-size: 0.8rem; margin-top: 20px;">Restart</button>
+    </div>
+
+    <audio id="player" loop></audio>
+
+    <script>
+        let userName = "My Love";
+
+        function changeTheme(theme) {
+            document.body.className = theme;
+        }
+
+        function nextPage(num) {
+            // Update name personalization
+            if(num === 2) {
+                const input = document.getElementById('userNameInput').value;
+                if(input) userName = input;
+                document.getElementById('galleryTitle').innerText = "For You, " + userName;
+                document.getElementById('questionName').innerText = userName + ", will you be my Valentine?";
+                document.getElementById('finalName').innerText = userName;
+
+                // Handle Music
+                const musicInput = document.getElementById('musicFile');
+                const player = document.getElementById('player');
+                if (musicInput.files[0]) {
+                    player.src = URL.createObjectURL(musicInput.files[0]);
+                    player.play();
+                }
+            }
+
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page' + num).classList.add('active');
+        }
+
+        function moveNo() {
+            const btn = document.getElementById('no-btn');
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            btn.style.left = x + 'px';
+            btn.style.top = y + 'px';
+            
+            // Random funny text
+            const phrases = ["Try again!", "Wrong button!", "Are you sure?", "Rude!", "Nice try!", "Give up!"];
+            btn.innerText = phrases[Math.floor(Math.random() * phrases.length)];
+        }
+
+        function showReaction() {
+            document.getElementById('yes-btn').style.display = 'none';
+            document.getElementById('no-btn').style.display = 'none';
+            document.getElementById('yes-reaction').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
